@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  myResumeCoutner:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: lambda_function.handler
+      Runtime: python3.8
+      Policies: AmazonDynamoDBFullAccess   
+      Events:
+        myCounterApi:
+          Type: Api
+          Properties:
+            Path: '/vCount'
+            Method: get
+      CodeUri: lambdafunc/
+  ResCounterDynamodb: 
+    Type: 'AWS::DynamoDB::Table'
+    Properties: 
+      AttributeDefinitions: 
+        - 
+          AttributeName: "Site"
+          AttributeType: "N"
+      KeySchema: 
+        - 
+          AttributeName: "Site"
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      TableName: "Res2Counter"

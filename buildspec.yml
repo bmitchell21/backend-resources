@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+        nodejs: 10
+        python: 3.8
+  build:
+    commands:
+      - npm install
+      - export BUCKET=test-for-pytests
+      - aws cloudformation package --template-file template.yml --output-template-file outputtemplate.yaml --s3-bucket test-for-pytests
+  post_build:
+    commands:
+      - pip install pytest
+      - python -m pytest tests/unit/
+artifacts:
+  type: zip
+  files:
+    - template.yml
+    - outputtemplate.yaml
