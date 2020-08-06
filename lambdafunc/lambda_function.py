@@ -2,7 +2,7 @@ import boto3
 import json
 
 dynamodb = boto3.client('dynamodb')
-def lambda_handler(event, context):
+def handler(event, context):
     response = dynamodb.update_item(
         TableName='Res2Counter',
         Key={
